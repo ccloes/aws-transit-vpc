@@ -12,11 +12,21 @@
       "Type" : "String",
       "Default" : "vpnconfigs/"
     }
+    "CodeLocationS3Bucket" : {
+      "Description" : "The location of the CISCO code used by this solution",
+      "Type" : "String",
+      "Default" : "solutions-reference",
+    ,
+    "SolutionsHelperS3BucketPrefix" : {
+      "Description" : "The S3 Bucket name prefix of the CISCO Solutions Helper code used by this solution.  The AWS REGION will be appended to this prefix",
+      "Type" : "String",
+      "Default" : "solutions",
+    }
   },
   "Mappings" : {
     "Function" : {
       "Poller" : { 
-	"CodeLocation" : "solutions-reference/transit-vpc/v3/transit-vpc-poller.py",
+	"CodeLocation" : { "Fn::Join" : ["", [{ "Ref" : "CodeLocationS3Bucket" }, "/transit-vpc/v3/transit-vpc-poller.py"]]},
 	"Name" : "vgw-poller",
         "Description": "Transit VPC: Poller function responsible for identifying specifically tagged VGWs and creating VPN connections to transit VPC.",
         "Runtime": "python2.7",
@@ -86,7 +96,7 @@
       	"Role": { "Fn::GetAtt" : [ "SolutionHelperRole" , "Arn" ] },
 	"Description": "Transit VPC: CloudFormation custom resource function invoked during transit VPC CloudFormation create, update, and delete stack operations.",
       	"Code": {
-      	  "S3Bucket": { "Fn::Join": ["", ["solutions-", {"Ref" : "AWS::Region"}]] },
+      	  "S3Bucket": { "Fn::Join": ["", [ {"Ref" : "SolutionsHelperS3BucketPrefix"}, "-", {"Ref" : "AWS::Region"}]] },
       	  "S3Key": "library/solution-helper/v2/solution-helper.zip"
       	},
       	"Runtime": "python2.7",
@@ -200,4 +210,3 @@
    }
   }
 }
-
