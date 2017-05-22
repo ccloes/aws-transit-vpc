@@ -13,12 +13,12 @@
       "Default" : "vpnconfigs/"
     }
     "CodeLocationS3Bucket" : {
-      "Description" : "The location of the CISCO code used by this solution",
+      "Description" : "The location of the Transit VPC automation code used by this solution",
       "Type" : "String",
       "Default" : "solutions-reference",
     ,
     "SolutionsHelperS3BucketPrefix" : {
-      "Description" : "The S3 Bucket name prefix of the CISCO Solutions Helper code used by this solution.  The AWS REGION will be appended to this prefix",
+      "Description" : "The S3 Bucket name prefix of S3 bucket location for the Solutions Helper Lambda code used by this solution. The AWS REGION will be appended to this prefix",
       "Type" : "String",
       "Default" : "solutions",
     }
